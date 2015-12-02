@@ -1,22 +1,59 @@
 DaysAgo
 =======
-DaysAgo - Converter of time in user-friendly format
+DaysAgo - Преобразователь даты в более дружественный формат
 
-Installation
+Установка
 ------------
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
-
-Either run
+Добавить в `composer.json`
 
 ```
-php composer.phar require --prefer-dist sfedosimov/yii2-daysago "*"
+"require": {
+    "sfedosimov/yii2-daysago": "*"
+},
+
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/sfedosimov/yii2-daysago.git"
+    }
+],
+
 ```
 
-or add
+Использование
+------------
 
+##### Как класс
 ```
-"sfedosimov/yii2-daysago": "*"
+use sfedosimov\daysago\DaysAgo;
+// ...
+// make([date, format], [date, format]);
+echo (new DaysAgo())->make('02.11.1998');
+// более 17 лет назад
+(new DaysAgo())->make(['02-12-2015', 'd-m-Y'], ['02-12-2015', 'd-m-Y']);
+// сегодня
+echo (new DaysAgo())->make(['02-04-2015', 'd-m-Y'], ['02.11.2015']);
+// 214 дней назад
 ```
 
-to the require section of your `composer.json` file.
+##### Как компонент
+
+В конфиг Yii2:
+```
+'components' => [
+// .....
+    'daysago' => [
+        'class' => 'sfedosimov\daysago\DaysAgo',
+        'format_in' => 'd-m-Y',
+        'postfix' => ' прошло'
+    ],
+// .....
+]
+```
+
+В коде:
+```
+echo Yii::$app->daysago->make('02-11-1998');
+// более 24 лет прошло
+```

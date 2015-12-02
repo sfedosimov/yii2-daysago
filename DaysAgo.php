@@ -13,16 +13,16 @@
 
 		public function make($date, array $to_date = [])
 		{
-			if (is_array($date) && isset($date['format'],$date['date'])) {
-				$dt = \DateTime::createFromFormat($date['format'],$date['date']);
+			if (is_array($date)) {
+				$dt = \DateTime::createFromFormat($date[1] ?: $this->format_in,$date[0]);
 			} else {
 				$dt = \DateTime::createFromFormat($this->format_in, $date);
 			}
 
 			$cmp_date = $dt->format($this->format_out);
 
-			if (!empty($to_date) && isset($to_date['format'], $to_date['date'])) {
-				$today_dt = \DateTime::createFromFormat($to_date['format'], $to_date['date']);
+			if (!empty($to_date) && is_array($to_date)) {
+				$today_dt = \DateTime::createFromFormat($to_date[1] ?: $this->format_in, $to_date[0]);
 			} else {
 				$today_dt = new \DateTime();
 			}
@@ -34,9 +34,9 @@
 			$diff_years = $today_dt->diff($dt)->format('%y');
 
 			if ($cmp_date == $today) {
-				return 'Сегодня';
+				return 'сегодня';
 			} else if ($cmp_date == $yesterday) {
-				return 'Вчера';
+				return 'вчера';
 			} else if ($diff_years >= 1) {
 				return $this->prefix . 'более ' . $diff_years . ' ' . self::getDecline($diff_years, 'года', 'лет', 'лет') . $this->postfix;
 			}
