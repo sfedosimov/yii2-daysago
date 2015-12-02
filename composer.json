@@ -1,0 +1,21 @@
+{
+    "name": "sfedosimov/yii2-daysago",
+    "description": "DaysAgo - Converter of time in user-friendly format",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","daysago","timeago"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sfedosimov",
+            "email": "sfedosimov@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "sfedosimov\\daysago\\": ""
+        }
+    }
+}
