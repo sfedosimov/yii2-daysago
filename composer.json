@@ -6,10 +6,14 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "sfedosimov",
+            "name": "Sergey Fedosimov",
             "email": "sfedosimov@gmail.com"
         }
     ],
+    "support": {
+        "email": "sfedosimov@gmail.com",
+        "issues": "https://github.com/sfedosimov/yii2-daysago/issues"
+    },
     "require": {
         "yiisoft/yii2": "*"
     },

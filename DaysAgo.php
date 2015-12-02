@@ -42,9 +42,11 @@
 				return 'Позавчера';
          	} else if ($diff_days >= 3) {
          		return $this->prefix . self::getDecline($diff_days, 'день', 'дня', 'дней') . $this->postfix;
-         	}else if ($diff_years >= 1) {
+         	} else if ($diff_years >= 1) {
          		return $this->prefix . self::getDecline($diff_years, 'год', 'года', 'лет') . $this->postfix;
          	}
+
+			return null;
 		}
 
 		/*
