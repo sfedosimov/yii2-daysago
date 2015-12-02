@@ -6,8 +6,8 @@
 	class DaysAgo extends Object
 	{
 		public $format_in = 'd.m.Y';
-		public $postfix = 'назад';
-		public $prefix = 'более';
+		public $postfix = ' назад';
+		public $prefix = '';
 
 		private $format_out = 'd.m.Y';
 
@@ -19,7 +19,7 @@
 				$dt = \DateTime::createFromFormat($this->format_in, $date);
 			}
 
-         	$cmp_date = $dt->format($this->format_out);
+			$cmp_date = $dt->format($this->format_out);
 
 			if (!empty($to_date) && isset($to_date['format'], $to_date['date'])) {
 				$today_dt = \DateTime::createFromFormat($to_date['format'], $to_date['date']);
@@ -29,31 +29,29 @@
 
 			$today = $today_dt->format($this->format_out);
 			$yesterday = $today_dt->modify('-1 day')->format($this->format_out);
-         	$before_yesterday = $today_dt->modify('-2 day')->format($this->format_out);
 
-         	$diff_days = $today_dt->diff($dt)->format('%a');
-         	$diff_years = $today_dt->diff($dt)->format('%y');
+			$diff_days = $today_dt->diff($dt)->format('%a') + 1;
+			$diff_years = $today_dt->diff($dt)->format('%y');
 
-         	if ($cmp_date == $today) {
-         		return 'Сегодня';
-         	} else if ($cmp_date == $yesterday) {
-         		return 'Вчера';
-         	} else if ($cmp_date == $before_yesterday) {
-				return 'Позавчера';
-         	} else if ($diff_days >= 3) {
-         		return $this->prefix . self::getDecline($diff_days, 'день', 'дня', 'дней') . $this->postfix;
-         	} else if ($diff_years >= 1) {
-         		return $this->prefix . self::getDecline($diff_years, 'год', 'года', 'лет') . $this->postfix;
-         	}
+			if ($cmp_date == $today) {
+				return 'Сегодня';
+			} else if ($cmp_date == $yesterday) {
+				return 'Вчера';
+			} else if ($diff_years >= 1) {
+				return $this->prefix . 'более ' . $diff_years . ' ' . self::getDecline($diff_years, 'года', 'лет', 'лет') . $this->postfix;
+			}
+			else if ($diff_days >= 2) {
+				return $this->prefix . $diff_days . ' ' .self::getDecline($diff_days, 'день', 'дня', 'дней') . $this->postfix;
+			}
 
 			return null;
 		}
 
 		/*
 		 * $num число, от которого будет зависеть форма слова
-		 * $dec1 первая форма слова, например Товар
-		 * $dec2 вторая форма слова - Товара
-		 * $dec3 третья форма множественного числа слова - Товаров
+		 * $dec1 первая форма слова, например Год
+		 * $dec2 вторая форма слова - Года
+		 * $dec3 третья форма множественного числа слова - Лет
 		 */
 		public static function getDecline($num, $dec1, $dec2, $dec3)
 		{
