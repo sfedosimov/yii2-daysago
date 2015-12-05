@@ -28,23 +28,49 @@
 			}
 
 			$today = $today_dt->format($this->format_out);
-			$yesterday = $today_dt->modify('-1 day')->format($this->format_out);
 
-			$diff_days = $today_dt->diff($dt)->format('%a') + 1;
-			$diff_years = $today_dt->diff($dt)->format('%y');
+            $today_dt_tmp = clone $today_dt;
+            $yesterday = $today_dt_tmp->modify('-1 day')->format($this->format_out);
+            unset($today_dt_tmp);
 
-			if ($cmp_date == $today) {
-				return 'сегодня';
-			} else if ($cmp_date == $yesterday) {
-				return 'вчера';
-			} else if ($diff_years >= 1) {
-				return $this->prefix . 'более ' . $diff_years . ' ' . self::getDecline($diff_years, 'года', 'лет', 'лет') . $this->postfix;
-			}
-			else if ($diff_days >= 2) {
-				return $this->prefix . $diff_days . ' ' .self::getDecline($diff_days, 'день', 'дня', 'дней') . $this->postfix;
-			}
+            $diffs = $today_dt->diff($dt)->format('%y %m %d');
+            list($y, $m, $d) = explode(' ', $diffs);
 
-			return null;
+            if ($cmp_date == $today) {
+                return $this->prefix . 'сегодня';
+            } else if ($cmp_date == $yesterday) {
+                return $this->prefix . 'вчера';
+            } else {
+
+                $out = array($this->prefix);
+
+                if ($y > 0) {
+                    $out[] = $y . ' ' . self::getDecline($y, 'год', 'года', 'лет');
+                }
+
+                if ($m > 0) {
+                    $out[] = $m . ' ' . self::getDecline($m, 'месяц', 'месяца', 'месяцев');
+                }
+
+                if ($d > 0) {
+                    $out[] = $d . ' ' . self::getDecline($d, 'день', 'дня', 'дней');
+                }
+
+                $out[] = $this->postfix;
+
+                $out_cnt = count($out);
+
+                if ($out_cnt == 4) {
+                    array_splice($out, 2, 0, array('и'));
+                } else if ($out_cnt == 5) {
+                    array_splice($out, 2, 0, array(','));
+                    array_splice($out, 4, 0, array('и'));
+                }
+
+                return str_replace(' ,', ',', implode(' ', $out));
+            }
+
+            return null;
 		}
 
 		/*
