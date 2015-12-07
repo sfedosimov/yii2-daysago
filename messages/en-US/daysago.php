@@ -3,6 +3,7 @@
     return [
         'сегодня' => 'today',
         'вчера'   => 'yesterday',
+        'завтра'  => 'tomorrow',
         'год'     => 'year',
         'года'    => 'years',
         'лет'     => 'years',

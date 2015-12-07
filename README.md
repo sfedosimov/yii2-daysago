@@ -19,6 +19,24 @@ DaysAgo - Преобразователь даты в более дружеств
     ],
 
 
+Выполнить `composer update`
+
+
+Добавить в **конфиг Yii2**
+
+    
+    'i18n' => [
+        'translations' => [
+            // .....
+            'daysago*' => [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@sfedosimov/daysago/messages',
+                'sourceLanguage' => 'ru',
+            ],
+            // .....
+        ],
+    ],
+
 
 ## Использование
 
@@ -44,23 +62,13 @@ DaysAgo - Преобразователь даты в более дружеств
         'daysago' => [
             'class' => 'sfedosimov\daysago\DaysAgo',
             'format_in' => 'd-m-Y',
-            'postfix' => ' прошло'
+            'past_prefix' => ''
+            'past_postfix' => ' прошло'
+            'future_prefix' => ''
+            'future_postfix' => ''
         ],
     // .....
     ]
-    
-**Если язык приложения английский то в конфиг еще и это:**
-
-    'i18n' => [
-        'translations' => [
-            'daysago*' => [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => '@sfedosimov/daysago/messages',
-                'sourceLanguage' => 'ru',
-            ],
-        ],
-    ],
-
 
 **В коде:**
 
