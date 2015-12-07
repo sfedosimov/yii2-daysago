@@ -11,6 +11,14 @@
 
 		private $format_out = 'd.m.Y';
 
+		/**
+		 * Возвращает красивое представление прошедшего времени
+		 *
+		 * @param date  $date    дата для преобразования
+		 * @param array $to_date дата отсчета
+		 *
+		 * @return null|string
+		 */
 		public function make($date, array $to_date = [])
 		{
 			if (is_array($date)) {
@@ -37,23 +45,23 @@
             list($y, $m, $d) = explode(' ', $diffs);
 
             if ($cmp_date == $today) {
-                return $this->prefix . 'сегодня';
+                return $this->prefix . \Yii::t('daysago','сегодня');
             } else if ($cmp_date == $yesterday) {
-                return $this->prefix . 'вчера';
+                return $this->prefix . \Yii::t('daysago','вчера');
             } else {
 
                 $out = array($this->prefix);
 
                 if ($y > 0) {
-                    $out[] = $y . ' ' . self::getDecline($y, 'год', 'года', 'лет');
+                    $out[] = $y . ' ' . self::getDecline($y, \Yii::t('daysago','год'), \Yii::t('daysago','года'), \Yii::t('daysago','лет'));
                 }
 
                 if ($m > 0) {
-                    $out[] = $m . ' ' . self::getDecline($m, 'месяц', 'месяца', 'месяцев');
+                    $out[] = $m . ' ' . self::getDecline($m, \Yii::t('daysago','месяц'), \Yii::t('daysago','месяца'), \Yii::t('daysago','месяцев'));
                 }
 
                 if ($d > 0) {
-                    $out[] = $d . ' ' . self::getDecline($d, 'день', 'дня', 'дней');
+                    $out[] = $d . ' ' . self::getDecline($d, \Yii::t('daysago','день'), \Yii::t('daysago','дня'), \Yii::t('daysago','дней'));
                 }
 
                 $out[] = $this->postfix;
@@ -61,23 +69,23 @@
                 $out_cnt = count($out);
 
                 if ($out_cnt == 4) {
-                    array_splice($out, 2, 0, array('и'));
+                    array_splice($out, 2, 0, array(\Yii::t('daysago','и')));
                 } else if ($out_cnt == 5) {
                     array_splice($out, 2, 0, array(','));
-                    array_splice($out, 4, 0, array('и'));
+                    array_splice($out, 4, 0, array(\Yii::t('daysago','и')));
                 }
 
                 return str_replace(' ,', ',', implode(' ', $out));
             }
-
-            return null;
 		}
 
-		/*
-		 * $num число, от которого будет зависеть форма слова
-		 * $dec1 первая форма слова, например Год
-		 * $dec2 вторая форма слова - Года
-		 * $dec3 третья форма множественного числа слова - Лет
+		/**
+		 * @param integer $num  число, от которого будет зависеть форма слова
+		 * @param string  $dec1 первая форма слова, например Год
+		 * @param string  $dec2 вторая форма слова - Года
+		 * @param string  $dec3 третья форма множественного числа слова - Лет
+		 *
+		 * @return mixed
 		 */
 		public static function getDecline($num, $dec1, $dec2, $dec3)
 		{
