@@ -1,5 +1,9 @@
 <?php
 
+	/**
+	 * @author Fedosimov Sergey <sfedosimov@gmail.com>
+	 */
+
 	namespace sfedosimov\daysago;
 	use yii\base\Object;
 
@@ -40,10 +44,9 @@
 			$today = $today_dt->format($this->format_out);
 
             $today_dt_tmp = clone $today_dt;
-            $today_dt_tmp2 = clone $today_dt;
             $yesterday = $today_dt_tmp->modify('-1 day')->format($this->format_out);
-            $tomorrow = $today_dt_tmp2->modify('+1 day')->format($this->format_out);
-            unset($today_dt_tmp, $today_dt_tmp2);
+            $tomorrow = $today_dt_tmp->modify('+2 day')->format($this->format_out);
+            unset($today_dt_tmp);
 
             $diffs = $today_dt->diff($dt)->format('%R %y %m %d');
             list($z, $y, $m, $d) = explode(' ', $diffs);
